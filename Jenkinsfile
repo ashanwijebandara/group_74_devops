@@ -76,12 +76,28 @@ pipeline {
             parallel {
                 stage('Run Frontend') {
                     steps {
-                        sh 'docker run -d --name lp-gas-front -p 3000:3000 lp-gas-front'
+                        script {
+                            sh '''
+                                if [ $(docker ps -q -f name=lp-gas-front) ]; then
+                                    docker stop lp-gas-front
+                                    docker rm lp-gas-front
+                                fi
+                                docker run -d --name lp-gas-front -p 3000:3000 lp-gas-front
+                            '''
+                        }
                     }
                 }
                 stage('Run Backend') {
                     steps {
-                        sh 'docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back'
+                        script {
+                            sh '''
+                                if [ $(docker ps -q -f name=lp-gas-back) ]; then
+                                    docker stop lp-gas-back
+                                    docker rm lp-gas-back
+                                fi
+                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back
+                            '''
+                        }
                     }
                 }
             }
