@@ -72,11 +72,11 @@ export const Dashboard = () => {
     };
 
     try {
-      const response = await axios.post('http://3.110.221.90:3001/orders/', orderData);
+      const response = await axios.post('http://13.127.47.145:3001/orders/', orderData);
 
       console.log('Order details:', response.data.order);
 
-      const resp = await axios.put('http://3.110.221.90:3001/orders/',
+      const resp = await axios.put('http://13.127.47.145:3001/orders/',
       {
         "orderId": response.data.order._id,   
         "userID": userLoggedId   

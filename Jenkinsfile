@@ -83,6 +83,7 @@ pipeline {
                                     docker rm lp-gas-front
                                 fi
                                 docker run -d --name lp-gas-front -p 3000:3000 lp-gas-front
+                                docker ps -a
                             '''
                         }
                     }
@@ -95,7 +96,9 @@ pipeline {
                                     docker stop lp-gas-back
                                     docker rm lp-gas-back
                                 fi
-                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back || docker logs lp-gas-back
+                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back
+                                docker ps -a
+                                docker logs lp-gas-back
                             '''
                         }
                     }

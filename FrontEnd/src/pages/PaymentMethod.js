@@ -35,7 +35,7 @@ export const PaymentMethod =() =>{
         };
 
         try {
-          axios.post('http://3.110.221.90:3001/payment/', paymentData)
+          axios.post('http://13.127.47.145:3001/payment/', paymentData)
           .then(result => {
             console.log(result);
             setTimeout(() => { 
