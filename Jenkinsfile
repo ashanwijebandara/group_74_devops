@@ -1,63 +1,3 @@
-// pipeline {
-//     agent any
-
-//     environment {
-//         GITHUB_REPO_URL = 'https://github.com/imeshthana/TechyStore.git'
-//     }
-
-//     stages {
-//         stage('Checkout') {
-//             parallel {
-//                 stage('Checkout Frontend') {
-//                     steps {
-//                         dir('techy_store_frontend') {
-//                             git branch: 'main', url: "${env.GITHUB_REPO_URL}"
-//                         }
-//                     }
-//                 }
-//                 stage('Checkout Backend') {
-//                     steps {
-//                         dir('techy_store_backend') {
-//                             git branch: 'main', url: "${env.GITHUB_REPO_URL}"
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Docker Build') {
-//             parallel {
-//                 stage('Build Frontend') {
-//                     steps {
-//                         dir('techy_store_frontend') {
-//                             sh 'docker build . -t techy-store-front'
-//                         }
-//                     }
-//                 }
-//                 stage('Build Backend') {
-//                     steps {
-//                         dir('techy_store_backend') {
-//                             sh 'docker build . -t techy-store-back'
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Run Docker Images') {
-//             parallel {
-//                 stage('Run Frontend') {
-//                     steps {
-//                         sh 'docker run -d --name techy-store-front -p 3000:3000 techy-store-front'
-//                     }
-//                 }
-//                 stage('Run Backend') {
-//                     steps {
-//                         sh 'docker run -d --name techy-store-back -p 3001:3001 techy-store-back'
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
 
 
 
@@ -91,7 +31,7 @@ pipeline {
             parallel {
                 stage('Build Frontend') {
                     steps {
-                        dir('lp_gas_frontend') {
+                        dir('FrontEnd') {
                             timeout(time: 10, unit: 'MINUTES') {
                                 sh 'docker build . -t lp-gas-front'
                             }
@@ -100,7 +40,7 @@ pipeline {
                 }
                 stage('Build Backend') {
                     steps {
-                        dir('lp_gas_backend') {
+                        dir('BackEnd') {
                             timeout(time: 10, unit: 'MINUTES') {
                                 sh 'docker build . -t lp-gas-back'
                             }
