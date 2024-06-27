@@ -4,13 +4,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install && \
-    npm install -g nodemon && \
-    chmod +x ./node_modules/.bin/nodemon
+RUN npm install
 
-# Optionally, handle index.js existence
-COPY index.js ./ || echo "No index.js found"
+COPY . .
 
 EXPOSE 3001
 
-CMD ["nodemon", "index.js"]
+CMD ["npm", "start"]
