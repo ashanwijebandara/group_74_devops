@@ -95,7 +95,7 @@ pipeline {
                                     docker stop lp-gas-back
                                     docker rm lp-gas-back
                                 fi
-                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back
+                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back || docker logs lp-gas-back
                             '''
                         }
                     }
