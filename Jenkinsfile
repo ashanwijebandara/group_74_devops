@@ -1,6 +1,3 @@
-
-
-
 pipeline {
     agent any
 
@@ -22,6 +19,32 @@ pipeline {
                     steps {
                         dir('BackEnd') {
                             git branch: 'main', url: "${env.GITHUB_REPO_URL}"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Docker Cleanup') {
+            parallel {
+                stage('Cleanup Frontend') {
+                    steps {
+                        script {
+                            sh '''
+                                docker stop lp-gas-front || true
+                                docker rm lp-gas-front || true
+                                docker rmi lp-gas-front || true
+                            '''
+                        }
+                    }
+                }
+                stage('Cleanup Backend') {
+                    steps {
+                        script {
+                            sh '''
+                                docker stop lp-gas-back || true
+                                docker rm lp-gas-back || true
+                                docker rmi lp-gas-back || true
+                            '''
                         }
                     }
                 }
