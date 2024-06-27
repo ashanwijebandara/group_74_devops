@@ -25,84 +25,39 @@ pipeline {
             }
         }
         stage('Docker Cleanup') {
-            parallel {
-                stage('Cleanup Frontend') {
-                    steps {
-                        script {
-                            sh '''
-                                docker stop lp-gas-front || true
-                                docker rm lp-gas-front || true
-                                docker rmi lp-gas-front || true
-                            '''
-                        }
-                    }
+            steps {
+                script {
+                    sh '''
+                        docker-compose -f docker-compose.yml down
+                    '''
                 }
-                stage('Cleanup Backend') {
-                    steps {
-                        script {
-                            sh '''
-                                docker stop lp-gas-back || true
-                                docker rm lp-gas-back || true
-                                docker rmi lp-gas-back || true
-                            '''
-                        }
+            }
+        }
+        stage('Docker Build and Run') {
+            steps {
+                dir('.') {
+                    script {
+                        sh '''
+                            docker-compose -f docker-compose.yml up --build -d
+                        '''
                     }
                 }
             }
         }
-        stage('Docker Build') {
-            parallel {
-                stage('Build Frontend') {
-                    steps {
-                        dir('FrontEnd') {
-                            timeout(time: 10, unit: 'MINUTES') {
-                                sh 'docker build . -t lp-gas-front'
-                            }
-                        }
-                    }
-                }
-                stage('Build Backend') {
-                    steps {
-                        dir('BackEnd') {
-                            timeout(time: 10, unit: 'MINUTES') {
-                                sh 'docker build . -t lp-gas-back'
-                            }
-                        }
-                    }
-                }
+    }
+    post {
+        always {
+            script {
+                sh 'docker-compose ps'
+                sh 'docker-compose logs backend'
+                sh 'docker-compose logs frontend'
             }
         }
-        stage('Run Docker Images') {
-            parallel {
-                stage('Run Frontend') {
-                    steps {
-                        script {
-                            sh '''
-                                if [ $(docker ps -q -f name=lp-gas-front) ]; then
-                                    docker stop lp-gas-front
-                                    docker rm lp-gas-front
-                                fi
-                                docker run -d --name lp-gas-front -p 3000:3000 lp-gas-front
-                                docker ps -a
-                            '''
-                        }
-                    }
-                }
-                stage('Run Backend') {
-                    steps {
-                        script {
-                            sh '''
-                                if [ $(docker ps -q -f name=lp-gas-back) ]; then
-                                    docker stop lp-gas-back
-                                    docker rm lp-gas-back
-                                fi
-                                docker run -d --name lp-gas-back -p 3001:3001 lp-gas-back
-                                docker ps -a
-                                docker logs lp-gas-back
-                            '''
-                        }
-                    }
-                }
+        cleanup {
+            script {
+                sh '''
+                    docker-compose -f docker-compose.yml down
+                '''
             }
         }
     }
