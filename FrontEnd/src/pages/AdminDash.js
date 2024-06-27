@@ -20,7 +20,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchUsersWithOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/user/');
+        const response = await axios.get('http://3.110.221.90:3001/user/');
         setUsersWithOrders(response.data);
       } catch (error) {
         console.error('Error fetching users with orders:', error);
@@ -32,7 +32,7 @@ export const AdminDashboard = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:3001/user/${userId}`);
+      await axios.delete(`http://3.110.221.90:3001/user/${userId}`);
 
       setUsersWithOrders(usersWithOrders.filter(user => user.user._id !== userId));
     } catch (error) {
@@ -42,7 +42,7 @@ export const AdminDashboard = () => {
 
   const handleDeleteOrder = async (userId, orderId) => {
     try {
-      await axios.delete(`http://localhost:3001/orders/savedorders/${userId}/${orderId}`);
+      await axios.delete(`http://3.110.221.90:3001/orders/savedorders/${userId}/${orderId}`);
 
       setUsersWithOrders(usersWithOrders.map(user => ({
         ...user,

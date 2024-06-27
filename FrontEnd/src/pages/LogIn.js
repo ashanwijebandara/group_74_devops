@@ -17,7 +17,7 @@ export const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/user/login", { email, password })
+      .post("http://3.110.221.90:3001/user/login", { email, password })
       .then((result) => {
         console.log(result);   
         if (result.data.message === "Success") {
