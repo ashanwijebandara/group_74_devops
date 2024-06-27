@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+# Install dependencies and fix permissions
+RUN npm install && \
+    chmod +x ./node_modules/.bin/nodemon
 
 COPY . .
 
