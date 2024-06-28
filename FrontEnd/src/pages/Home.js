@@ -16,7 +16,7 @@ export const Home = () => {
       <Stack direction="row" spacing={2}>
         <div className="getstarted">
           <Button variant="contained" color="success" onClick={handleGetStarted}>
-            Get Started
+            Hello
           </Button>
         </div>
       </Stack>
